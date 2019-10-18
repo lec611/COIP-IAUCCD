@@ -50,15 +50,33 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item">
                 <a href="javascript:;">文件</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="javascript:;">打开</a></dd>
+                    <dd><a href="javascript:;">关闭</a></dd>
+                    <dd><a href="javascript:;">保存</a></dd>
+                    <dd><a href="javascript:;">另存为</a></dd>
+                    <dd><a href="javascript:;">导出</a></dd>
+                </dl>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">编辑</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="javascript:;">撤销</a></dd>
+                    <dd><a href="javascript:;">清除</a></dd>
+                    <dd><a href="javascript:;">字体</a></dd>
+                    <dd><a href="javascript:;">字号</a></dd>
+                </dl>
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">管理员</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="javascript:;">内置数据组预设</a></dd>
+                    <dd><a href="javascript:;">处理上载申请</a></dd>
+                    <dd><a href="javascript:;">联系管理员</a></dd>
+                </dl>
             </li>
             <li class="layui-nav-item">
-                <a href="javascript:;">帮助</a>
+                <button data-method="notice" class="layui-btn" id="help" style="background-color: #23262E">帮助</button>
             </li>
         </ul>
         <!-- 注册 -->
@@ -304,12 +322,37 @@
         formSelects: 'formSelects-v4'
     });
 
-    layui.use(['formSelects', 'layer', 'util', 'form', 'upload'], function () {
+    layui.use(['formSelects', 'layer', 'util', 'form', 'upload','element'], function () {
         var form = layui.form;
         var $ = layui.jquery;
         var layer = layui.layer;
         var upload = layui.upload;
         var formSelects = layui.formSelects;
+        var element = layui.element;
+
+        //帮助按钮内容
+        var active = {
+            notice: function(){
+                //示范一个公告层
+                layer.open({
+                    type: 1
+                    ,title: false //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '500px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['知道了']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">1、用户可选择“数据录入”和“文件输入”两种数据输入方式；<br>2、“数据录入”部分，用户根据“指标”栏中列出的某年“园区产业集聚”与“城镇发展”的指标条目进行输入；<br>3、“文件输入”部分，用户点击“文件输入模板”可下载模板。填写指南：“文件输入”模板为excel格式，前n列为各指标不同年份的具体数值，数值对应指标必须从上到下按照“园区就业总人数、实际实现营业收入、实际入园企业总数、园区已开发工业用地面积、城镇人口数、人口城镇化率、城镇工业部门从业人数、二三产业增加值占GDP比重、人均GDP”的顺序排列；在输入“XX年XX园区”时，建议用户按照一定逻辑顺序输入，如某一园区的逐年数据或某年多个园区数据；需要输入多个园区多年数据时，建议按照某园区逐年数据，后继续列出另一园区逐年数据，如“2016年越南龙江工业园”、“2017年越南龙江工业园”、“2018年越南龙江工业园”、“2015年中白工业园”、“2016年中白工业园”、“2017年中白工业园”……。<br>4、在数据录入或数据文件上载完成后，点击“运行计算”即可得到评价结果；<br>5、用户可在“指标输出”框中获得评价结果，也可通过文件输出的方式获得评估结果。</div>'
+                });
+            }
+        }
+
+        $('#help').on('click', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
 
         form.on('submit(reset)', function (data) {
             $(".layui-input").val("");

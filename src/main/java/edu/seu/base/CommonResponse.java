@@ -2,6 +2,7 @@ package edu.seu.base;
 
 import com.alibaba.fastjson.JSON;
 
+import java.lang.annotation.Target;
 import java.util.Map;
 
 /**
@@ -13,7 +14,7 @@ public class CommonResponse {
     private int code;
     private String msg;
     private Map<String, Object> data;
-
+   
     public int getCode() {
         return code;
     }
