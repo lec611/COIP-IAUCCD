@@ -17,4 +17,16 @@ public class PageController {
 
     @RequestMapping("/login")
     public String login(){return "login";}
+
+    @RequestMapping("/register")
+    public String register(){return "register";}
+
+    @RequestMapping("/findPassword")
+    public String findPassword(){return "findPassword";}
+
+    @RequestMapping("/updatePassword")
+    public String updatePassword(){ return "updatePassword";}
+
+    @RequestMapping("/updatePasswordFromFind")
+    public String updatePasswordFromFind(){return "updatePasswordFromFind";}
 }
