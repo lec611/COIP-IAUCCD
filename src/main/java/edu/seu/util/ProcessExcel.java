@@ -87,17 +87,17 @@ public class ProcessExcel {
         }
 
         //初始化客户信息的集合
-        List<CalculateObject> calculateObjects = new ArrayList<CalculateObject>();
+        List<CalculateObject> calculateObjects = new ArrayList<>();
         //初始化输入流
         InputStream is = null;
         try {
             //验证文件名是否合格
-            if (!validateExcel(fileName)) {
+            if (!validateExcel(file1.getPath())) {
                 return null;
             }
             //根据文件名判断文件是2003版本还是2007版本
             boolean isExcel2003 = true;
-            if (CheckExcelUtil.isExcel2007(fileName)) {
+            if (CheckExcelUtil.isExcel2007(file1.getName())) {
                 isExcel2003 = false;
             }
             //根据新建的文件实例化输入流
@@ -145,7 +145,7 @@ public class ProcessExcel {
         Sheet sheet = wb.getSheetAt(0);
         //得到Excel文件的行数
         this.totalRows = sheet.getPhysicalNumberOfRows();
-        System.out.println(this.totalRows);
+        //System.out.println(this.totalRows);
 
         //得到列数，前提是有行数
         if (totalRows >= 1 && sheet.getRow(0) != null) {
@@ -185,9 +185,14 @@ public class ProcessExcel {
                     }
                 }
             }
-            calculateObjects.add(calculateObject);
+            if(0.0 != calculateObject.getActualOperatingIncome()){
+               // System.out.println(calculateObject.getName());
+                  calculateObjects.add(calculateObject);
+            }else
+                continue;
+
         }
-        System.out.println(calculateObjects);
+       // System.out.println(calculateObjects);
         return calculateObjects;
     }
 }

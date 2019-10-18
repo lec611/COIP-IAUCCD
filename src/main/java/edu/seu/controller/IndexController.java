@@ -8,6 +8,7 @@ import edu.seu.model.HostHolder;
 import edu.seu.model.User;
 import edu.seu.service.CalculateService;
 import edu.seu.model.CalculateObject;
+import edu.seu.util.ProcessExcel;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.annotations.Param;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: yxl
@@ -116,13 +118,16 @@ public class IndexController {
                 System.out.println("非Excel文件");
                 return JSON.toJSONString("File is not Excel!");
             }
-            File mkdir = new File(realPath);
-            if(!mkdir.exists()) {
-                mkdir.mkdirs();
-            }
-
-            File f = new File(realPath,"待计算文件.xlsx");
-            file.transferTo(f);
+            ProcessExcel processExcel = new ProcessExcel();
+            List<CalculateObject> calculateObjects = processExcel.getExcelInfo(filename,file);
+            System.out.println(calculateObjects);
+//            File mkdir = new File(realPath);
+//            if(!mkdir.exists()) {
+//                mkdir.mkdirs();
+//            }
+//
+//            File f = new File(realPath,"待计算文件.xlsx");
+//            file.transferTo(f);
 
             return JSON.toJSONString("success");
         }catch(Exception e){
