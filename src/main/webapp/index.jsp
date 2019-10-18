@@ -218,11 +218,16 @@
                         <legend>文件输入</legend>
                     </fieldset>
                     <div style="float: right;margin-bottom: 20px;">
+                        <div style="text-align: center;margin-left:30px;position: relative">
+                            <input type="file" id="inputFile" class="form-control" name="inputFile" style="width: 80%;float: left">
+                        </div>
+                        <br><br>
                         <div class="layui-inline">
-                            <button class="layui-btn">下载文件输入模板</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="formSearch" id="2" ><a href="${ctx}/main/templateDownload" style="color:white"> 文件输入模板</a></button>
                         </div>
                         <div class="layui-inline">
-                            <button class="layui-btn">上传输入的文件</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick="uploadTemplateFile()" id="1" style="color:white">上传数据文件</button>
+                           <!-- <button class="layui-btn" lay-submit="" lay-filter="formSearch" id="2"><a href="${ctx}/main/templateUpload" style="color: white"> 上传输入的文件</a></button>-->
                         </div>
                     </div>
                 </div>
@@ -296,6 +301,32 @@
 <%--本页脚本--%>
 <script src="./static/js/index.js"></script>
 <script>
+    function uploadTemplateFile(){
+        var formData = new FormData();
+        formData.append('file', $('#inputFile')[0].files[0]); // 固定格式
+
+        $.ajax({
+            url:'${ctx}/main/templateUpload',	//后台接收数据地址
+            data:formData,
+            type: "POST",
+            dataType: "json",
+            cache: false,			//上传文件无需缓存
+            processData: false,		//用于对data参数进行序列化处理 这里必须false
+            contentType: false,
+            success: function(result){
+                if(result === "success"){
+                    alert("说明文件上传成功！");
+                }else if(result === "error"){
+                    alert("非管理员用户无上传权限！");
+                }else{
+                    alert("注意：上传文件格式必须为PDF！");
+                }
+            },
+            failure: function (data) {
+                alert(data+"\n文件传输出错！");
+            }
+        });
+    }
 
     //全局定义一次, 加载formSelects
     layui.config({
@@ -386,6 +417,7 @@
                 }
             });
         }
+
 
         //分享工具
         layui.util.fixbar({
