@@ -337,7 +337,7 @@
                 }else if(result === "error"){
                     alert("非管理员用户无上传权限！");
                 }else{
-                    alert("注意：上传文件格式必须为PDF！");
+                    alert("注意：上传文件格式必须为Excel！");
                 }
             },
             failure: function (data) {

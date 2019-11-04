@@ -16,15 +16,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.internet.ContentType;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -70,6 +74,43 @@ public class IndexController {
             return new CommonResponse(CodeEnum.UNKNOWN_ERROR.getValue(), e.getMessage()).toJSONString();
         }
     }
+    @RequestMapping("/calculateFile")
+    @ResponseBody
+    public String calculate(@Param("selectValue") final String selectValue,HttpServletRequest request){
+        try{
+            ServletContext context = request.getSession().getServletContext();
+            String realPath = context.getRealPath("/file/待计算文件.xlsx");
+            File file = new File(realPath);
+            String fileName = file.getName();
+            FileInputStream fileInputStream ;
+            MultipartFile multipartFile ;
+            fileInputStream = new FileInputStream(file);
+            multipartFile = new MockMultipartFile(fileName,fileName,null,fileInputStream);
+            ProcessExcel processExcel = new ProcessExcel();
+            List<CalculateObject> calculateObjects = processExcel.getExcelInfo(fileName,multipartFile);
+            String[] data = new String[calculateObjects.size()*3 + 1];
+            data[0] = calculateObjects.size()+"";
+            for(int i = 1 ; i < calculateObjects.size(); i++)
+            {
+                CalculateObject calculateObject = calculateObjects.get(i);
+                data[i] = calculateObject.getName();
+                HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
+                data[i + calculateObjects.size()] = temp.get("degree").toString();
+                data[i+calculateObjects.size() * 2] = temp.get("level").toString();
+            }
+            return JSON.toJSONString(data);
+        }catch (IAUCCDException e)
+        {
+            LOGGER.info(e.getMessage() + "parameter: calculate={}");
+            return new CommonResponse(CodeEnum.CALCULATE_ERROR.getValue(), e.getMessage()).toJSONString();
+        }catch (Exception e)
+        {
+            LOGGER.error("/main/calculate" + "parameter: calculate={}", e);
+            return new CommonResponse(CodeEnum.UNKNOWN_ERROR.getValue(), e.getMessage()).toJSONString();
+        }
+
+    }
+
 
     @RequestMapping("/dataGroup")
     @ResponseBody
@@ -113,14 +154,21 @@ public class IndexController {
             ServletContext context = request.getSession().getServletContext();
             String realPath = context.getRealPath("/file");
             System.out.println(realPath);
-
             if(!"xlsx".equals(FilenameUtils.getExtension(filename))){
                 System.out.println("非Excel文件");
-                return JSON.toJSONString("File is not Excel!");
+               return JSON.toJSONString("File is not Excel!");
             }
-            ProcessExcel processExcel = new ProcessExcel();
-            List<CalculateObject> calculateObjects = processExcel.getExcelInfo(filename,file);
-            System.out.println(calculateObjects);
+            File mkdir = new File(realPath);
+            if(!mkdir.exists()) {
+                mkdir.mkdirs();
+            }
+
+            File f = new File(realPath,"待计算文件.xlsx");
+            file.transferTo(f);
+
+//            ProcessExcel processExcel = new ProcessExcel();
+//            List<CalculateObject> calculateObjects = processExcel.getExcelInfo(filename,file);
+//            System.out.println(calculateObjects);
 //            File mkdir = new File(realPath);
 //            if(!mkdir.exists()) {
 //                mkdir.mkdirs();
