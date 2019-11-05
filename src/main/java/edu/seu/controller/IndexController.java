@@ -115,6 +115,7 @@ public class IndexController {
     @ResponseBody
     public String dataGroup(){
         try{
+
             ArrayList<CalculateObject> dataGroup = calculateService.getDataGroup();
             HashMap<String, Object> data = new HashMap<>(8);
             data.put("dataGroup", dataGroup);
