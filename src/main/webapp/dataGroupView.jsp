@@ -183,7 +183,7 @@
 
                 <div style="float: left;margin-bottom: 20px;">
                     <div class="layui-inline">
-                        <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick=";" id="change" style="color:white">修改</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick="change();" id="change" style="color:white">修改</button>
                     </div>
                     <div class="layui-inline">
                         <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick=";" id="save" style="color:white">保存</button>
@@ -240,11 +240,78 @@
 <%--本页脚本--%>
 <script src="./static/js/index.js"></script>
 <script>
-
+    userLevel = ${user.level};
     var innerDataName = '';
-    // $('#total-employment').val(groupData.totalEmployment);
+    
+    $(function () {
+        lockInput();
+    });
 
+    function lockInput() {
+        var totalEmployment = document.getElementById('total-employment');
+        totalEmployment.onfocus = function () {
+            totalEmployment.blur();
+        }
+        var actualOperatingIncome = document.getElementById('actual-operating-income');
+        actualOperatingIncome.onfocus = function () {
+            actualOperatingIncome.blur();
+        }
+        var actualTotalEnterprises = document.getElementById('actual-total-enterprises');
+        actualTotalEnterprises.onfocus = function () {
+            actualTotalEnterprises.blur();
+        }
+        var siteArea = document.getElementById('site-area');
+        siteArea.onfocus = function () {
+            siteArea.blur();
+        }
+        var urbanPopulation = document.getElementById('urban-population');
+        urbanPopulation.onfocus = function () {
+            urbanPopulation.blur();
+        }
+        var urbanizationRate = document.getElementById('urbanization-rate');
+        urbanizationRate.onfocus = function () {
+            urbanizationRate.blur();
+        }
+        var industrialEmployment = document.getElementById('industrial-employment');
+        industrialEmployment.onfocus = function () {
+            industrialEmployment.blur();
+        }
+        var gdpProportion = document.getElementById('gdp-proportion');
+        gdpProportion.onfocus = function () {
+            gdpProportion.blur();
+        }
+        var gdpPerCapita = document.getElementById('gdp-per-capita');
+        gdpPerCapita.onfocus = function () {
+            gdpPerCapita.blur();
+        }
+    }
 
+    function unlockInput() {
+        var totalEmployment = document.getElementById('total-employment');
+        totalEmployment.onfocus = null;
+        var actualOperatingIncome = document.getElementById('actual-operating-income');
+        actualOperatingIncome.onfocus = null;
+        var actualTotalEnterprises = document.getElementById('actual-total-enterprises');
+        actualTotalEnterprises.onfocus = null;
+        var siteArea = document.getElementById('site-area');
+        siteArea.onfocus = null;
+        var urbanPopulation = document.getElementById('urban-population');
+        urbanPopulation.onfocus = null;
+        var urbanizationRate = document.getElementById('urbanization-rate');
+        urbanizationRate.onfocus = null;
+        var industrialEmployment = document.getElementById('industrial-employment');
+        industrialEmployment.onfocus = null;
+        var gdpProportion = document.getElementById('gdp-proportion');
+        gdpProportion.onfocus = null;
+        var gdpPerCapita = document.getElementById('gdp-per-capita');
+        gdpPerCapita.onfocus = null;
+    }
+
+    function change() {
+        if (userLevel == 1) {
+            unlockInput();
+        }
+    }
 
     //全局定义一次, 加载formSelects
     layui.config({

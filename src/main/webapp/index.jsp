@@ -79,9 +79,14 @@
         </ul>
         <!-- 注册 -->
         <ul class="layui-nav layui-layout-right head-nav-right" lay-filter="nav">
-            <li class="layui-nav-item">
-                <a href="${ctx}/login">登录&nbsp;/&nbsp;注册</a>
+            <%--<li class="layui-nav-item">--%>
+                <%--<a href="${ctx}/login">登录&nbsp;/&nbsp;注册</a>--%>
+            <%--</li>--%>
+
+            <li class="layui-nav-item doc-login" id="loginButton">
+                <a href="${ctx}/login">登录</a>
             </li>
+            <li class="layui-nav-item" id="userInfoButton" style="display: none; margin-right: 20px;"></li>
         </ul>
         <!-- 手机和平板的导航开关 -->
         <a class="index-navicon" href="javascript:;" style="display: none;">
@@ -317,6 +322,15 @@
 <%--本页脚本--%>
 <script src="./static/js/index.js"></script>
 <script>
+
+    // js全局变量
+    var userInfo = {};
+    userInfo.id = "${user.id}";
+    userInfo.name = "${user.username}";
+    userInfo.email = "${user.email}";
+    userInfo.level = "${user.level}";
+    userInfo.active = "${user.active}";
+
     function uploadTemplateFile(){
         var formData = new FormData();
         formData.append('file', $('#inputFile')[0].files[0]); // 固定格式
@@ -526,6 +540,43 @@
         }
 
     });
+
+    $(function () {
+        checkUserLogin();
+    });
+
+    function checkUserLogin() {
+        if (userInfo != null && userInfo.id != null && userInfo.id != -1) {
+            $("#loginButton").hide();
+            var html = "";
+            html = html + '<a href="javascript:;">' + userInfo.name + '</a>'
+                + '<dl class="layui-nav-child">'
+                + '<dd><a href="${ctx}/updatePassword">修改密码</a></dd>'
+                + '<dd style="text-align: center;"><a href="javascript:;" onclick="logout();">退出</a></dd>'
+                + '</dl>';
+            $("#userInfoButton").html(html);
+            $("#userInfoButton").show();
+        } else {
+            $("#loginButton").show();
+            $("#userInfoButton").hide();
+        }
+    }
+
+    function logout() {
+        $.ajax({
+            type: "get",
+            url: "${ctx}/reglogin/logout",
+            success: function (data) {
+                if (data.code != 200) {
+                    layer.msg(data.msg, {icon: 2});
+                    return false;
+                } else {
+                    layer.msg(data.msg, {icon: 1});
+                    location = "${ctx}/";
+                }
+            }
+        });
+    }
 
     //百度分享插件
     window._bd_share_config = {
