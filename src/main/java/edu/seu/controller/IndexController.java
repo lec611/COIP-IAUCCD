@@ -9,6 +9,9 @@ import edu.seu.model.User;
 import edu.seu.service.CalculateService;
 import edu.seu.model.CalculateObject;
 import edu.seu.util.ProcessExcel;
+import edu.seu.util.FileConvert;
+
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.annotations.Param;
@@ -16,19 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.mail.internet.ContentType;
-import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -82,17 +81,17 @@ public class IndexController {
             String realPath = context.getRealPath("/file/待计算文件.xlsx");
             File file = new File(realPath);
             String fileName = file.getName();
-            FileInputStream fileInputStream ;
-            MultipartFile multipartFile ;
-            fileInputStream = new FileInputStream(file);
-            multipartFile = new MockMultipartFile(fileName,fileName,null,fileInputStream);
+            FileItem item = new FileConvert().createFileItem(realPath);
+            MultipartFile multipartFile = new CommonsMultipartFile(item);
             ProcessExcel processExcel = new ProcessExcel();
             List<CalculateObject> calculateObjects = processExcel.getExcelInfo(fileName,multipartFile);
+            System.out.println(calculateObjects);
             String[] data = new String[calculateObjects.size()*3 + 1];
             data[0] = calculateObjects.size()+"";
-            for(int i = 1 ; i < calculateObjects.size(); i++)
+            for(int i = 1 ; i <= calculateObjects.size(); i++)
             {
-                CalculateObject calculateObject = calculateObjects.get(i);
+                CalculateObject calculateObject = calculateObjects.get(i-1);
+                System.out.println(calculateObject);
                 data[i] = calculateObject.getName();
                 HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
                 data[i + calculateObjects.size()] = temp.get("degree").toString();
