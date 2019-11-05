@@ -63,7 +63,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         if (modelAndView != null && hostHolder.getUser() != null) {
             //hostHolder.getUser().setPassword(null);
             HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("user",hostHolder.getUser());
+            httpSession.setAttribute("user",hostHolder.getUser());  //登陆后将用户放到session中，便于前端取用
            // modelAndView.addObject("user", hostHolder.getUser());
         }
     }
