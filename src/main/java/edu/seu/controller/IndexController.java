@@ -3,6 +3,7 @@ package edu.seu.controller;
 import com.alibaba.fastjson.JSON;
 import edu.seu.base.CodeEnum;
 import edu.seu.base.CommonResponse;
+import edu.seu.dao.CalculateDao;
 import edu.seu.exceptions.IAUCCDException;
 import edu.seu.model.HostHolder;
 import edu.seu.model.User;
@@ -180,6 +181,20 @@ public class IndexController {
         }catch(Exception e){
             LOGGER.error(e.getMessage());
             return JSON.toJSONString("error");
+        }
+    }
+
+    @RequestMapping("/updateDataGroup")
+    @ResponseBody
+    public String updateDataGroup(CalculateObject calculateObject)
+    {
+        try{
+            calculateService.updateDataGroup(calculateObject);
+            return new CommonResponse(CodeEnum.SUCCESS.getValue(),"更新内置数据组成功").toJSONString();
+        }catch(Exception e)
+        {
+            LOGGER.info(e.getMessage() + "parameter: calculateObject={}", calculateObject);
+            return new CommonResponse(CodeEnum.CALCULATE_ERROR.getValue(), e.getMessage()).toJSONString();
         }
     }
 }

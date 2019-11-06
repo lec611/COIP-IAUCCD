@@ -4,6 +4,7 @@ import edu.seu.model.CalculateObject;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.ArrayList;
 
@@ -34,4 +35,6 @@ public interface CalculateDao {
      */
     @Select({"select ", FILED_NAME ," from ", TABLE_NAME, " where id=#{id}"})
     CalculateObject selectCalculateObjectById(@Param("id") Integer id);
+
+    Integer update(CalculateObject calculateObject);
 }

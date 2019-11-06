@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.seu.dao.CalculateDao">
+
+    <update id="update">
+        update calculate_object set
+        <trim suffixOverrides=",">
+            <if test="total_employment!=null">
+                total_employment = #{total_employment},
+            </if>
+            <if test="actual_operating_income!=null">
+                actual_operating_income = #{actual_operating_income},
+            </if>
+            <if test="actual_total_enterprises!=null">
+                actual_total_enterprises = #{actual_total_enterprises},
+            </if>
+            <if test="site_area!=null">
+                site_area = #{site_area},
+            </if>
+            <if test="urban_population!=null">
+                urban_population = #{urban_population},
+            </if>
+            <if test="urbanization_rate!=null">
+                urbanization_rate = #{urbanization_rate},
+            </if>
+            <if test="industrial_employment!=null">
+                industrial_employment = #{industrial_employment},
+            </if>
+            <if test="gdp_proportion!=null">
+                gdp_proportion = #{gdp_proportion},
+            </if>
+            <if test="gdp_per_capita!=null">
+                gdp_per_capita = #{gdp_per_capita},
+            </if>
+        </trim>
+        where id = #{id};
+    </update>
+
+</mapper>

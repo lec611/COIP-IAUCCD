@@ -226,4 +226,9 @@ public class CalculateService {
     public ArrayList<CalculateObject> getDataGroup() throws Exception {
         return calculateDao.selectDataGroup();
     }
+
+    public int updateDataGroup(CalculateObject calculateObject)
+    {
+        return calculateDao.update(calculateObject);
+    }
 }
