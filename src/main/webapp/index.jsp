@@ -69,7 +69,6 @@
                 <a href="javascript:;">管理员</a>
                 <dl class="layui-nav-child"> <!-- 二级菜单 -->
                     <dd><a href="dataGroupView.jsp">内置数据组预设</a></dd>
-                    <dd><a href="javascript:;">处理上载申请</a></dd>
                     <dd><a data-method="contact" id="contactAdmin" href="javascript:;">联系管理员</a></dd>
                 </dl>
             </li>
@@ -248,7 +247,9 @@
                         </div>
                         <div class="layui-inline">
                             <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick="uploadTemplateFile()" id="1" style="color:white">上传数据文件</button>
-                           <!-- <button class="layui-btn" lay-submit="" lay-filter="formSearch" id="2"><a href="${ctx}/main/templateUpload" style="color: white"> 上传输入的文件</a></button>-->
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit="" lay-filter="formSearch" onclick="calculateFile()" id="3" style="color:white">运行文件计算</button>
                         </div>
                     </div>
                 </div>
@@ -331,6 +332,7 @@
     userInfo.level = "${user.level}";
     userInfo.active = "${user.active}";
 
+
     function uploadTemplateFile(){
         var formData = new FormData();
         formData.append('file', $('#inputFile')[0].files[0]); // 固定格式
@@ -354,6 +356,21 @@
             },
             failure: function (data) {
                 alert(data+"\n文件传输出错！");
+            }
+        });
+    }
+
+    function calculateFile() {
+        // alert(JSON.stringify(layui.formSelects.value('select_data_group')));
+        $.ajax({
+            type: 'GET',
+            url: "${ctx}/main/calculateFile",
+            data: {
+                "selectValue": JSON.stringify(layui.formSelects.value('select_data_group'))
+            },
+            dataType: 'json',
+            success: function (result) {
+                alert(result.data);
             }
         });
     }
