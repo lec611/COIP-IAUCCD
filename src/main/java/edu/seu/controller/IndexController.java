@@ -77,6 +77,7 @@ public class IndexController {
     @ResponseBody
     public String calculate(@Param("selectValue") final String selectValue,HttpServletRequest request){
         try{
+            System.out.println(selectValue);
             ServletContext context = request.getSession().getServletContext();
             String realPath = context.getRealPath("/file/待计算文件.xlsx");
             File file = new File(realPath);
@@ -91,7 +92,6 @@ public class IndexController {
             for(int i = 1 ; i <= calculateObjects.size(); i++)
             {
                 CalculateObject calculateObject = calculateObjects.get(i-1);
-                System.out.println(calculateObject);
                 data[i] = calculateObject.getName();
                 HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
                 data[i + calculateObjects.size()] = temp.get("degree").toString();

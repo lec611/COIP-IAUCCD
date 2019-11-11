@@ -14,7 +14,7 @@ public class CommonResponse {
     private int code;
     private String msg;
     private Map<String, Object> data;
-   
+
     public int getCode() {
         return code;
     }
@@ -52,6 +52,7 @@ public class CommonResponse {
         this.msg = msg;
         this.data = data;
     }
+
 
     public String toJSONString() {
         return JSON.toJSONString(this);

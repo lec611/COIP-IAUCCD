@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">
     <meta http-equiv="Content-Language" content="zh-CN">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <title>COIP: IAUCCD</title>
+    <title>OICPIAU</title>
     <link rel="shortcut icon" href="" type="image/x-icon">
     <!--Layui-->
     <link href="./static/plug/layui/css/layui.css" rel="stylesheet"/>
@@ -44,7 +44,7 @@
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <a href="${ctx}/index.jsp">
-            <div class="layui-logo" style="font-weight: bold">COIP: IAUCCD</div>
+            <div class="layui-logo" style="font-weight: bold">OICPIAU</div>
         </a>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
@@ -370,7 +370,7 @@
             },
             dataType: 'json',
             success: function (result) {
-                alert(result.data);
+                alert(result);
             }
         });
     }
