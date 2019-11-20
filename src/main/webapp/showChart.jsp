@@ -18,6 +18,8 @@
         String[] data3 = {"0.4293253615435391","0.4293253615435391","0.4293253615435391"};
         String[] data4 = {"0.4293253615435391","0.4293253615435391","0.4293253615435391"};
         String[] data5 = {"很低","很低","很低"};
+        String[] data6 = {"2016年越南龙江工业园","2017年越南龙江工业园", "2018年越南龙江工业园"};
+        String[] years = {"2016", "2017", "2018"};
     %>
 
     <table style="border-collapse: collapse;border: none;" border="2">
@@ -76,17 +78,46 @@
             %>
         </tr>
 
-    </table>
+        <tr>
+            <th></th>
+            <%
+                for (int i = 0; i < dataNum; i++) {
+            %>
+            <th><%=data6[i]%></th>
+            <%
+                }
+            %>
+        </tr>
+    </table> <br/>
+    <div id="chartContainer1" style="height: 370px; width: 50%;margin: auto auto;"></div>
 </body>
 <script src='./static/js/jquery/jquery.min.js'></script>
-<%--<script>--%>
-    <%--// var data=['2','XX年XX园区','X年X园区','0.3903616916436824','0.4293253615435391','较低','一般'];--%>
-    <%--var data = ['2', 'XX年XX园区', '0.4293253615435391','0.4293253615435391','0.4293253615435391','0.4293253615435391','很低',--%>
-        <%--'X年X园区','0.4293253615435391','0.4293253615435391','0.4293253615435391','0.4293253615435391','很低'];--%>
-    <%--var numOfData = parseInt(data[0]);--%>
-    <%--var json = {};--%>
-    <%--for (i = 0; i < numOfData; i++) {--%>
+<script src="./static/js/canvasjs.min.js"></script>
+<script>
+    function showBarChart(data) {
+        data = ['chartContainer1', 3, '耦合协调度（D）', 2016, 2017, 2018, 0.4293253615435391, 0.4293253615435391, 0.4293253615435391];
+        var charData = [];
+        var num = data[0];
+        for (i = 0; i < num; i++) {
+            charData.push({x:data[i+2], y:data[i+2+num]});
+        }
 
-    <%--}--%>
-<%--</script>--%>
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
+            title:{
+                text: data[1]
+            },
+            data: [{
+                type: "column", //change type to bar, line, area, pie, etc
+                //indexLabel: "{y}", //Shows y value on all Data Points
+                indexLabelFontColor: "#5A5757",
+                indexLabelPlacement: "outside",
+                dataPoints: charData
+            }]
+        });
+        chart.render();
+    }
+</script>
 </html>
