@@ -287,7 +287,7 @@
                     <div class="layui-form-item" style="margin-top: 50px">
                         <label class="layui-form-label" style="width: 40%;text-align: left;font-weight: bold">文件输出：</label>
                         <div class="layui-input-block">
-                            <button class="layui-btn">下载输出文件</button>
+                            <button class="layui-btn" onclick="showChart();">下载输出文件</button>
                         </div>
                     </div>
                 </div>
@@ -332,6 +332,7 @@
     userInfo.level = "${user.level}";
     userInfo.active = "${user.active}";
 
+    var calFileData;
 
     function uploadTemplateFile(){
         var formData = new FormData();
@@ -370,9 +371,16 @@
             },
             dataType: 'json',
             success: function (result) {
-                alert(result);
+                // var dataList = result.toString().split(',');
+                // alert(dataList.length);
+                calFileData = result.toString();
+                alert(calFileData);
             }
         });
+    }
+    
+    function showChart() {
+        window.open('${ctx}/showChart.jsp?data='+calFileData);
     }
 
     function clearForm() {
