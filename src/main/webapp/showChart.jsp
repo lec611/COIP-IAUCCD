@@ -9,7 +9,7 @@
 <head>
     <title>图形展示</title>
 </head>
-<body>
+<body >
     <%
         String data = request.getParameter("data");
         String[] dataArray = data.split(",");
@@ -91,6 +91,7 @@
         }
 
     %>
+    <button id="renderPdf">下载为PDF</button>
     <table style="border-collapse: collapse;border: none;" border="2">
         <tr>
             <th><%=dataName[0]%></th>
@@ -167,6 +168,8 @@
 </body>
 <script src='./static/js/jquery/jquery.min.js'></script>
 <script src="./static/js/canvasjs.min.js"></script>
+<script src="./static/js/html2canvas.js"></script>
+<script src="./static/js/jsPdf.debug.js"></script>
 <script>
     $(function () {
         var dataNum = <%=dataNum%>;
@@ -252,6 +255,54 @@
             }
             e.chart.render();
         }
+    }
+</script>
+
+<script>
+    var downPdf = document.getElementById("renderPdf");
+
+    downPdf.onclick = function() {
+        html2canvas(document.body, {
+            background: '#FFFFFF',
+            onrendered: function (canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                //一页pdf显示html页面生成的canvas高度;
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                //未生成pdf的html页面高度
+                var leftHeight = contentHeight;
+                //pdf页面偏移
+                var position = 0;
+                //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                var imgWidth = 595.28;
+                var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                //当内容未超过pdf一页显示的范围，无需分页
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                } else {
+                    while (leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        //避免添加空白页
+                        if (leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('content.pdf');
+            }
+        })
+
     }
 </script>
 </html>
