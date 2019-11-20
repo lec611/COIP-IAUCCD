@@ -374,7 +374,7 @@
                 // var dataList = result.toString().split(',');
                 // alert(dataList.length);
                 calFileData = result.toString();
-                alert("运行计算成功！若未上传文件，则数据未服务器初始数据，不具有实际意义。");
+                alert("运行计算成功！若未上传文件，则数据为服务器初始数据，不具有实际意义。");
             }
         });
     }
