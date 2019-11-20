@@ -48,16 +48,16 @@
         </a>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item">
-                <a href="javascript:;">文件</a>
-                <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                    <dd><a href="javascript:;">打开</a></dd>
-                    <dd><a href="javascript:;">关闭</a></dd>
-                    <dd><a href="javascript:;">保存</a></dd>
-                    <dd><a href="javascript:;">另存为</a></dd>
-                    <dd><a href="javascript:;">导出</a></dd>
-                </dl>
-            </li>
+            <%--<li class="layui-nav-item">--%>
+                <%--<a href="javascript:;">文件</a>--%>
+                <%--<dl class="layui-nav-child"> <!-- 二级菜单 -->--%>
+                    <%--<dd><a href="javascript:;">打开</a></dd>--%>
+                    <%--<dd><a href="javascript:;">关闭</a></dd>--%>
+                    <%--<dd><a href="javascript:;">保存</a></dd>--%>
+                    <%--<dd><a href="javascript:;">另存为</a></dd>--%>
+                    <%--<dd><a href="javascript:;">导出</a></dd>--%>
+                <%--</dl>--%>
+            <%--</li>--%>
             <li class="layui-nav-item">
                 <a href="javascript:;">编辑</a>
                 <dl class="layui-nav-child"> <!-- 二级菜单 -->
@@ -285,9 +285,9 @@
                         <div class="layui-input-block level-of-coupling" style="font-size: 20px"></div>
                     </div>
                     <div class="layui-form-item" style="margin-top: 50px">
-                        <label class="layui-form-label" style="width: 40%;text-align: left;font-weight: bold">文件输出：</label>
+                        <label class="layui-form-label" style="width: 15%;text-align: left;font-weight: bold">文件输出：</label>
                         <div class="layui-input-block">
-                            <button class="layui-btn" onclick="showChart();">下载输出文件</button>
+                            <button class="layui-btn" onclick="showChart();">点击查看结果</button>
                         </div>
                     </div>
                 </div>
@@ -374,7 +374,7 @@
                 // var dataList = result.toString().split(',');
                 // alert(dataList.length);
                 calFileData = result.toString();
-                alert(calFileData);
+                alert("运行计算成功！若未上传文件，则数据未服务器初始数据，不具有实际意义。");
             }
         });
     }
