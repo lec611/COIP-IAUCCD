@@ -143,6 +143,9 @@ public class CalculateService {
         }
 
         HashMap<String, Object> map = new HashMap<>(8);
+        map.put("firstOrder",firstChildOrder.get(0));
+        map.put("secondOrder",secondChildOrder.get(0));
+        map.put("degreeSystem", systemCouplingDegree.get(0));
         map.put("degree", degree);
         map.put("level", level);
         return map;

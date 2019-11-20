@@ -87,16 +87,22 @@ public class IndexController {
             ProcessExcel processExcel = new ProcessExcel();
             List<CalculateObject> calculateObjects = processExcel.getExcelInfo(fileName,multipartFile);
             System.out.println(calculateObjects);
-            String[] data = new String[calculateObjects.size()*3 + 1];
+            String[] data = new String[calculateObjects.size()*6 + 1];
             data[0] = calculateObjects.size()+"";
             for(int i = 1 ; i <= calculateObjects.size(); i++)
             {
                 CalculateObject calculateObject = calculateObjects.get(i-1);
+                System.out.println(calculateObject);
                 data[i] = calculateObject.getName();
                 HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
-                data[i + calculateObjects.size()] = temp.get("degree").toString();
-                data[i+calculateObjects.size() * 2] = temp.get("level").toString();
+                System.out.println(temp.get("secondOrder"));
+                data[i + calculateObjects.size()] = temp.get("firstOrder").toString();
+                data[i + calculateObjects.size() * 2] = temp.get("secondOrder").toString();
+                data[i + calculateObjects.size() * 3] = temp.get("degreeSystem").toString();
+                data[i + calculateObjects.size() * 4] = temp.get("degree").toString();
+                data[i + calculateObjects.size() * 5] = temp.get("level").toString();
             }
+            System.out.println(JSON.toJSONString(data));
             return JSON.toJSONString(data);
         }catch (IAUCCDException e)
         {
