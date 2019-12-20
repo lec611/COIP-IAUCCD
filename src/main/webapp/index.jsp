@@ -277,7 +277,7 @@
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label"
-                               style="width: 40%;text-align: left">该中国境外产业园区产业聚集与城镇化的耦合协调度为：</label>
+                               style="width: 40%;text-align: left">该境外产业园区产业聚集与城镇化的耦合协调度为：</label>
                         <div class="layui-input-block degree-of-coupling" style="font-size: 20px;padding-top: 25px"></div>
                     </div>
                     <div class="layui-form-item">
@@ -348,7 +348,7 @@
             contentType: false,
             success: function(result){
                 if(result === "success"){
-                    alert("说明文件上传成功！");
+                    alert("数据文件上传成功！");
                 }else if(result === "error"){
                     alert("非管理员用户无上传权限！");
                 }else{
