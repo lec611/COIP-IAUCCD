@@ -14,27 +14,28 @@
         String data = request.getParameter("data");
         String[] dataArray = data.split(",");
         int dataNum = Integer.parseInt(dataArray[0]);
-        String[] dataName = {"“中国境外产业园区产业集聚”子系统有序度", "“地方城镇化发展”子系统有序度", "系统耦合度（C）", "耦合协调度（D）", "耦合协调等级"};
+        String[] dataName = {"“境外国际合作园区产业集聚”子系统有序度", "“地方城镇化发展”子系统有序度", "系统耦合度（C）", "耦合协调度（D）", "耦合协调等级"};
         String[][] datas = new String[6][];
         String[] data1 = new String[dataNum];
+        int offset = 1+dataNum;
         for (int i = 0; i < dataNum; i++) {
-            data1[i] = dataArray[3+i];
+            data1[i] = dataArray[offset+i];
         }
         String[] data2 = new String[dataNum];
         for (int i = 0; i < dataNum; i++) {
-            data2[i] = dataArray[3+i+dataNum];
+            data2[i] = dataArray[offset+i+dataNum];
         }
         String[] data3 = new String[dataNum];
         for (int i = 0; i < dataNum; i++) {
-            data3[i] = dataArray[3+i+dataNum*2];
+            data3[i] = dataArray[offset+i+dataNum*2];
         }
         String[] data4 = new String[dataNum];
         for (int i = 0; i < dataNum; i++) {
-            data4[i] = dataArray[3+i+dataNum*3];
+            data4[i] = dataArray[offset+i+dataNum*3];
         }
         String[] data5 = new String[dataNum];
         for (int i = 0; i < dataNum; i++) {
-            data5[i] = dataArray[3+i+dataNum*4];
+            data5[i] = dataArray[offset+i+dataNum*4];
         }
         String[] data6 = new String[dataNum];
         for (int i = 0; i < dataNum; i++) {
@@ -211,7 +212,7 @@
 
     function showLineChart(dataNum, charDatas, years) {
 
-        var lineTitle = ["“中国境外产业园区产业集聚”子系统有序度", "“地方城镇化发展”子系统有序度", "耦合协调度（D）"];
+        var lineTitle = ["“境外国际合作园区产业集聚”子系统有序度", "“地方城镇化发展”子系统有序度", "耦合协调度（D）"];
         var charData = [];
         for (var i = 0; i < 3; i++) {
             var dataPts = [];
