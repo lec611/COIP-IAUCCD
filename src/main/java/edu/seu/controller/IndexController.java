@@ -75,7 +75,7 @@ public class IndexController {
     }
     @RequestMapping("/calculateFile")
     @ResponseBody
-    public String calculate(@Param("selectValue") final String selectValue,HttpServletRequest request){
+    public String calculateFile(@Param("selectValue") final String selectValue,HttpServletRequest request){
         try{
             System.out.println(selectValue);
             ServletContext context = request.getSession().getServletContext();
@@ -95,7 +95,6 @@ public class IndexController {
                 System.out.println(calculateObject);
                 data[i] = calculateObject.getName();
                 HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
-                System.out.println(temp.get("secondOrder"));
                 data[i + calculateObjects.size()] = temp.get("firstOrder").toString();
                 data[i + calculateObjects.size() * 2] = temp.get("secondOrder").toString();
                 data[i + calculateObjects.size() * 3] = temp.get("degreeSystem").toString();
@@ -170,18 +169,6 @@ public class IndexController {
 
             File f = new File(realPath,"待计算文件.xlsx");
             file.transferTo(f);
-
-//            ProcessExcel processExcel = new ProcessExcel();
-//            List<CalculateObject> calculateObjects = processExcel.getExcelInfo(filename,file);
-//            System.out.println(calculateObjects);
-//            File mkdir = new File(realPath);
-//            if(!mkdir.exists()) {
-//                mkdir.mkdirs();
-//            }
-//
-//            File f = new File(realPath,"待计算文件.xlsx");
-//            file.transferTo(f);
-
             return JSON.toJSONString("success");
         }catch(Exception e){
             LOGGER.error(e.getMessage());

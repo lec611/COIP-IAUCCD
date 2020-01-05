@@ -284,12 +284,12 @@
                         <label class="layui-form-label" style="width: 40%;text-align: left">耦合协调等级为：</label>
                         <div class="layui-input-block level-of-coupling" style="font-size: 20px"></div>
                     </div>
-                    <div class="layui-form-item" style="margin-top: 50px">
-                        <label class="layui-form-label" style="width: 15%;text-align: left;font-weight: bold">文件输出：</label>
-                        <div class="layui-input-block">
-                            <button class="layui-btn" onclick="showChart();">点击查看结果</button>
-                        </div>
-                    </div>
+                    <%--<div class="layui-form-item" style="margin-top: 50px">--%>
+                        <%--<label class="layui-form-label" style="width: 15%;text-align: left;font-weight: bold">文件输出：</label>--%>
+                        <%--<div class="layui-input-block">--%>
+                            <%--<button class="layui-btn" onclick="showChart();">点击查看结果</button>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                 </div>
             </div>
 
@@ -303,12 +303,12 @@
     <!--分享窗体-->
     <div class="index-share layui-hide">
         <div class="index-share-body">
-            <div style="width: 200px;height:100%;">
-                <div class="bdsharebuttonbox">
-                    <a class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-                    <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-                    <a class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-                    <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+            <div style="width: 50px;height:100%; color:white">
+                <div class="bdsharebuttonbox" style="color:white">
+                    <%--<a class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>--%>
+                    <%--<a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>--%>
+                    <a class="bds_weixin" data-cmd="weixin" title="分享到微信"style="color: white"></a>
+                    <%--<a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>--%>
                 </div>
             </div>
         </div>
@@ -362,7 +362,7 @@
     }
 
     function calculateFile() {
-        // alert(JSON.stringify(layui.formSelects.value('select_data_group')));
+         //alert(JSON.stringify(layui.formSelects.value('select_data_group')));
         $.ajax({
             type: 'GET',
             url: "${ctx}/main/calculateFile",
@@ -375,6 +375,7 @@
                 // alert(dataList.length);
                 calFileData = result.toString();
                 alert("运行计算成功！若未上传文件，则数据为服务器初始数据，不具有实际意义。");
+                showChart();
             }
         });
     }
@@ -432,7 +433,7 @@
                     ,btn: ['知道了']
                     ,btnAlign: 'c'
                     ,moveType: 1 //拖拽模式，0或者1
-                    ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">//todo</div>'
+                    ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">管理员：闫怡然<br>邮箱：417553763@qq.com</div>'
                 });
             }
 
@@ -607,10 +608,11 @@
     window._bd_share_config = {
         "common": {
             "bdSnsKey": {},
-            "bdText": "",
+            "bdMini":"4",
+            "bdText": "http://47.98.167.250/OICPIAU",
             "bdStyle": "0",
             "bdSize": "32",
-            "bdUrl": "https://www.baidu.com/"  // 暂定为百度页面，当有新网址的时候记得在这里填写新网址
+            "bdUrl": "http://47.98.167.250/OICPIAU/"  // 暂定为百度页面，当有新网址的时候记得在这里填写新网址
         },
         "share": {}
     };
