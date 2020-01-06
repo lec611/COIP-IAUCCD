@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>COIP: IAUCCD - 修改密码页面</title>
+    <title>OICPIAU - 修改密码页面</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4,
@@ -26,7 +26,7 @@
 
 <body class="login-bg">
 <div class="login layui-anim layui-anim-up">
-    <div class="message">COIP: IAUCCD - 修改密码</div>
+    <div class="message">OICPIAU - 修改密码</div>
     <div id="darkbannerwrap"></div>
     <form class="layui-form" action="" method="post">
         <input type="password" name="oldPassword" id="oldPassword" placeholder="请输入旧密码"

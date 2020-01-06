@@ -1,5 +1,6 @@
 package edu.seu.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import edu.seu.base.CodeEnum;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: yxl
@@ -22,7 +24,7 @@ public class CalculateService {
     @Autowired
     private CalculateDao calculateDao;
 
-    public HashMap<String, Object> calculate(CalculateObject calculateObject, String selectValue) throws IAUCCDException {
+    public HashMap<String, Object> calculate(List<CalculateObject> calculateObjectList, String selectValue) throws IAUCCDException {
         JSONArray jsonArray = (JSONArray) JSONArray.parse(selectValue);
         int len = jsonArray.size();
         ArrayList<Integer> ids = new ArrayList<>(8);
@@ -32,8 +34,12 @@ public class CalculateService {
             ids.add(Integer.valueOf(value));
         }
 
-        ArrayList<CalculateObject> allData = new ArrayList<>(8);
-        allData.add(calculateObject);
+        ArrayList<CalculateObject> allData = new ArrayList<>();
+        for(CalculateObject calculateObject : calculateObjectList)
+        {
+            allData.add(calculateObject);
+        }
+        //allData.add(calculateObject);
         for (int id : ids) {
             CalculateObject data = calculateDao.selectCalculateObjectById(id);
             allData.add(data);
@@ -126,29 +132,55 @@ public class CalculateService {
         }
 
         // 耦合协调度计算
-        double degree = Math.sqrt((0.5 * firstChildOrder.get(0) + 0.5 * secondChildOrder.get(0)) * systemCouplingDegree.get(0));
-        String level = "";
-        if (degree < 0.2 && degree >= 0) {
-            level = "很低";
-        } else if (degree >= 0.2 && degree < 0.4) {
-            level = "较低";
-        } else if (degree >= 0.4 && degree < 0.6) {
-            level = "一般";
-        } else if (degree >= 0.6 && degree < 0.8) {
-            level = "较高";
-        } else if (degree >= 8 && degree <= 1) {
-            level = "很高";
-        } else {
-            level = "耦合协调度不在0到1之间";
+        ArrayList<Double> degreeList = new ArrayList<>();
+        ArrayList<String> levelList = new ArrayList<>();
+        for(int i = 0;i<allLength - 1;i++)
+        {
+            double degree = Math.sqrt((0.5 * firstChildOrder.get(i) + 0.5 * secondChildOrder.get(i)) * systemCouplingDegree.get(i));
+            String level = "";
+            if (degree < 0.2 && degree >= 0) {
+                level = "很低";
+            } else if (degree >= 0.2 && degree < 0.4) {
+                level = "较低";
+            } else if (degree >= 0.4 && degree < 0.6) {
+                level = "一般";
+            } else if (degree >= 0.6 && degree < 0.8) {
+                level = "较高";
+            } else if (degree >= 8 && degree <= 1) {
+                level = "很高";
+            } else {
+                level = "耦合协调度不在0到1之间";
+            }
+            degreeList.add(degree);
+            levelList.add(level);
         }
-
-        HashMap<String, Object> map = new HashMap<>(8);
-        map.put("firstOrder",firstChildOrder.get(0));
-        map.put("secondOrder",secondChildOrder.get(0));
-        map.put("degreeSystem", systemCouplingDegree.get(0));
-        map.put("degree", degree);
-        map.put("level", level);
-        return map;
+        if(allLength == 2)
+        {
+            HashMap<String, Object> map = new HashMap<>(8);
+//            map.put("firstOrder",firstChildOrder.get(0));
+//            map.put("secondOrder",secondChildOrder.get(0));
+//            map.put("degreeSystem", systemCouplingDegree.get(0));
+            map.put("degree", degreeList.get(0));
+            map.put("level", levelList.get(0));
+            return map;
+        }else
+        {
+            int realLen = allLength - 1;
+            String[] data = new String[realLen*6 + 1];
+            data[0] = realLen + "";
+            for(int i = 1 ; i <= realLen;i++)
+            {
+                data[i] = calculateObjectList.get(i-1).getName();
+                data[i + realLen] = firstChildOrder.get(i-1)+"";
+                data[i + realLen * 2] = secondChildOrder.get(i-1)+"";
+                data[i + realLen * 3] = systemCouplingDegree.get(i-1) + "";
+                data[i + realLen * 4] = degreeList.get(i-1)+"";
+                data[i + realLen * 5] = levelList.get(i-1);
+            }
+            HashMap<String, Object> map = new HashMap<>(8);
+            map.put("result",JSON.toJSONString(data));
+            return map;
+        }
     }
 
     /**

@@ -63,7 +63,9 @@ public class IndexController {
     @ResponseBody
     public String calculate(CalculateObject calculateObject, @Param("selectValue") final String selectValue){
         try{
-            HashMap<String, Object> data = calculateService.calculate(calculateObject, selectValue);
+            List<CalculateObject> list = new ArrayList<>();
+            list.add(calculateObject);
+            HashMap<String, Object> data = calculateService.calculate(list, selectValue);
             return new CommonResponse(CodeEnum.SUCCESS.getValue(), "数据计算成功", data).toJSONString();
         }catch (IAUCCDException e){
             LOGGER.info(e.getMessage() + "parameter: calculate={}", calculateObject);
@@ -87,22 +89,23 @@ public class IndexController {
             ProcessExcel processExcel = new ProcessExcel();
             List<CalculateObject> calculateObjects = processExcel.getExcelInfo(fileName,multipartFile);
             System.out.println(calculateObjects);
-            String[] data = new String[calculateObjects.size()*6 + 1];
-            data[0] = calculateObjects.size()+"";
-            for(int i = 1 ; i <= calculateObjects.size(); i++)
-            {
-                CalculateObject calculateObject = calculateObjects.get(i-1);
-                System.out.println(calculateObject);
-                data[i] = calculateObject.getName();
-                HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
-                data[i + calculateObjects.size()] = temp.get("firstOrder").toString();
-                data[i + calculateObjects.size() * 2] = temp.get("secondOrder").toString();
-                data[i + calculateObjects.size() * 3] = temp.get("degreeSystem").toString();
-                data[i + calculateObjects.size() * 4] = temp.get("degree").toString();
-                data[i + calculateObjects.size() * 5] = temp.get("level").toString();
-            }
-            System.out.println(JSON.toJSONString(data));
-            return JSON.toJSONString(data);
+//            String[] data = new String[calculateObjects.size()*6 + 1];
+//            data[0] = calculateObjects.size()+"";
+//            for(int i = 1 ; i <= calculateObjects.size(); i++)
+//            {
+//                CalculateObject calculateObject = calculateObjects.get(i-1);
+//                System.out.println(calculateObject);
+//                data[i] = calculateObject.getName();
+//                HashMap<String, Object> temp = calculateService.calculate(calculateObject, selectValue);
+//                data[i + calculateObjects.size()] = temp.get("firstOrder").toString();
+//                data[i + calculateObjects.size() * 2] = temp.get("secondOrder").toString();
+//                data[i + calculateObjects.size() * 3] = temp.get("degreeSystem").toString();
+//                data[i + calculateObjects.size() * 4] = temp.get("degree").toString();
+//                data[i + calculateObjects.size() * 5] = temp.get("level").toString();
+//            }
+            HashMap<String, Object> data = calculateService.calculate(calculateObjects,selectValue);
+           // System.out.println(data.get("result").toString());
+            return data.get("result").toString();
         }catch (IAUCCDException e)
         {
             LOGGER.info(e.getMessage() + "parameter: calculate={}");

@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>COIP: IAUCCD - 找回密码页面</title>
+    <title>OICPIAU - 找回密码页面</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4,
@@ -26,7 +26,7 @@
 
 <body class="login-bg">
 <div class="login layui-anim layui-anim-up">
-    <div class="message">COIP: IAUCCD - 找回密码</div>
+    <div class="message">OICPIAU - 找回密码</div>
     <div id="darkbannerwrap"></div>
     <form class="layui-form" action="" method="post">
         <input type="text" name="email" id="email" placeholder="请输入注册邮箱"
